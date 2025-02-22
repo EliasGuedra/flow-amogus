@@ -25,10 +25,11 @@ caps = [Client(url) for url in rtsp_urls]
 try:
     while True:
         frames = []
-        for cap in caps:
+        for i, cap in enumerate(caps):
             ret, frame = cap.read()
             frame = cv2.resize(frame, (VIDEO_WIDTH, VIDEO_HEIGHT))
-            
+            cv2.imwrite(f"filename_{i}.png", frame)
+
             results = model(frame)[0]
             detections = sv.Detections.from_ultralytics(results)
             
